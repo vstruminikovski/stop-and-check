@@ -1,0 +1,36 @@
+{
+  "common": {
+    "start": "Fillo",
+    "continue": "Vazhdo",
+    "pause": "Pauzë",
+    "retry": "Provo përsëri",
+    "home": "Kreu",
+    "lookLeft": "Kontrollo majtas",
+    "lookRight": "Kontrollo djathtas",
+    "wait": "Prit",
+    "wayClear": "Rruga është e sigurt",
+    "positiveResult": "Shumë mirë",
+    "retryResult": "Ushtro edhe një herë",
+    "accelerate": "Përshpejto",
+    "brake": "Freno",
+    "steerLeft": "Kthehu majtas",
+    "steerRight": "Kthehu djathtas",
+    "completed": "U krye",
+    "needsPractice": "Duhet ushtruar",
+    "disclaimer": "Ky është ushtrim mësimor. Nuk është provim zyrtar i vozitjes dhe nuk e zëvendëson mësimin me instruktor."
+  },
+  "lessons": {
+    "stop-and-check": {
+      "title": "Ndalo dhe kontrollo",
+      "goal": "Afrohu te shenja STOP, ndalo para vijës dhe vazhdo vetëm kur është e sigurt.",
+      "briefing": "Ngadalëso. Ndalo plotësisht para vijës. Kontrollo trafikun dhe vazhdo kur rruga është e sigurt.",
+      "checklist": {
+        "stoppedBeforeLine": "Ndale para vijës",
+        "checkedBothWays": "Kontrollove majtas dhe djathtas",
+        "waitedWhileUnsafe": "Prite derisa kalimi të bëhej i sigurt",
+        "proceededWhenClear": "Vazhdoje kur rruga ishte e sigurt"
+      },
+      "retryGuidance": "Provo përsëri. Ndalo, kontrollo dhe vazhdo vetëm kur është e sigurt."
+    }
+  }
+}

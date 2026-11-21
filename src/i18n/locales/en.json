@@ -1,0 +1,36 @@
+{
+  "common": {
+    "start": "Start",
+    "continue": "Continue",
+    "pause": "Pause",
+    "retry": "Retry",
+    "home": "Home",
+    "lookLeft": "Check left",
+    "lookRight": "Check right",
+    "wait": "Wait",
+    "wayClear": "The way is clear",
+    "positiveResult": "Well done",
+    "retryResult": "Practise once more",
+    "accelerate": "Accelerate",
+    "brake": "Brake",
+    "steerLeft": "Steer left",
+    "steerRight": "Steer right",
+    "completed": "Completed",
+    "needsPractice": "Needs practice",
+    "disclaimer": "This is a learning exercise. It is not an official driving test and does not replace instruction with a driving instructor."
+  },
+  "lessons": {
+    "stop-and-check": {
+      "title": "Stop and check",
+      "goal": "Approach the STOP sign, stop before the line, and proceed only when it is safe.",
+      "briefing": "Slow down. Stop completely before the line. Check traffic and proceed when the way is clear.",
+      "checklist": {
+        "stoppedBeforeLine": "Stopped before the line",
+        "checkedBothWays": "Checked left and right",
+        "waitedWhileUnsafe": "Waited until crossing was safe",
+        "proceededWhenClear": "Proceeded when the way was clear"
+      },
+      "retryGuidance": "Try again. Stop, check, and proceed only when it is safe."
+    }
+  }
+}
