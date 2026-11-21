@@ -17,7 +17,9 @@
     "steerRight": "Kthehu djathtas",
     "completed": "U krye",
     "needsPractice": "Duhet ushtruar",
-    "disclaimer": "Ky është ushtrim mësimor. Nuk është provim zyrtar i vozitjes dhe nuk e zëvendëson mësimin me instruktor."
+    "disclaimer": "Ky është ushtrim mësimor. Nuk është provim zyrtar i vozitjes dhe nuk e zëvendëson mësimin me instruktor.",
+    "reverse": "Ecje mbrapsht",
+    "parkingBrake": "Frenë parkimi"
   },
   "lessons": {
     "stop-and-check": {
@@ -31,6 +33,63 @@
         "proceededWhenClear": "Vazhdoje kur rruga ishte e sigurt"
       },
       "retryGuidance": "Provo përsëri. Ndalo, kontrollo dhe vazhdo vetëm kur është e sigurt."
+    }
+  },
+  "modules": {
+    "practice": {
+      "title": "Ushtrime në poligon",
+      "startExercise": "Fillo ushtrimin",
+      "completed": "U krye",
+      "needsPractice": "Duhet ushtruar",
+      "backToModule": "Kthehu te ushtrimet",
+      "disclaimer": "Ky është ushtrim mësimor. Nuk është provim zyrtar i vozitjes dhe nuk e zëvendëson mësimin me instruktor."
+    }
+  },
+  "exercises": {
+    "moving-off": {
+      "title": "Nisja dhe ndalimi",
+      "briefing": "Nisu nga vendi. Qëndro në mes të korsisë dhe ndalo para vijës.",
+      "checklist": {
+        "movedOff": "Nise nga vendi",
+        "stayedInLane": "Qëndrove në korsi",
+        "stoppedBeforeLine": "Ndalove para vijës"
+      }
+    },
+    "reversing": {
+      "title": "Lëvizja mbrapsht",
+      "briefing": "Zgjidh marshin e ecjes mbrapsht kur automjeti është i ndalur. Lëviz mbrapsht në mes të korsisë dhe ndalo para vijës.",
+      "checklist": {
+        "selectedReverseWhileStopped": "Zgjodhe ecjen mbrapsht kur automjeti ishte i ndalur",
+        "stayedInLane": "Qëndrove në korsi",
+        "stoppedBeforeLine": "Ndalove para vijës"
+      }
+    },
+    "u-turn": {
+      "title": "Kthim gjysmërrethor",
+      "briefing": "Ktheje automjetin në drejtimin e kundërt brenda hapësirës së shënuar. Përdor jo më shumë se tri manovra dhe mos kalo kufijtë.",
+      "checklist": {
+        "stayedInArea": "Qëndrove brenda hapësirës së shënuar",
+        "finishedOpposite": "Përfundove në drejtimin e kundërt",
+        "maxThreeManeuvers": "Përdore jo më shumë se tri manovra"
+      }
+    },
+    "parallel-parking": {
+      "title": "Parkim mbrapsht",
+      "briefing": "Parko mbrapsht pranë skajit të rrugës. Hyr në hapësirën e shënuar pa prekur kufijtë.",
+      "checklist": {
+        "reversedIntoSpace": "Hyre mbrapsht në hapësirë",
+        "didNotTouchBoundaries": "Nuk preke kufijtë",
+        "stoppedInsideSpace": "Ndalove brenda hapësirës së shënuar"
+      }
+    },
+    "hill-start": {
+      "title": "Nisja në të përpjetë",
+      "briefing": "Ndalo në të përpjetë dhe aktivizo frenën e parkimit. Pastaj nisu pa lejuar automjetin të rrokulliset prapa.",
+      "checklist": {
+        "stoppedOnIncline": "Ndalove në të përpjetë",
+        "appliedParkingBrake": "Aktivizove frenën e parkimit",
+        "movedOffWithoutRollback": "Nise pa u rrokullisur prapa"
+      }
     }
   }
 }

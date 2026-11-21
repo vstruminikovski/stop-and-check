@@ -1054,3 +1054,285 @@ kbd {
   color: var(--muted);
   max-width: 36em;
 }
+
+/* ---------- Practice module ---------- */
+
+.module-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.module-open {
+  display: grid;
+  grid-template-columns: 112px 1fr auto;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+  padding: 24px 22px 24px 28px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+.module-open:hover {
+  background: rgba(120, 120, 128, 0.06);
+}
+
+.module-art .stop-icon {
+  width: 112px;
+  height: 112px;
+}
+
+.module-body {
+  display: grid;
+  gap: 8px;
+}
+
+.module-title {
+  font-size: clamp(24px, 4.5vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.module-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.module-count svg {
+  width: 18px;
+  height: 18px;
+  color: var(--success);
+}
+
+.module-chevron svg {
+  width: 26px;
+  height: 26px;
+  color: var(--muted);
+}
+
+@media (max-width: 520px) {
+  .module-open {
+    grid-template-columns: 72px 1fr auto;
+    gap: 14px;
+    padding: 18px 14px 18px 16px;
+  }
+  .module-art .stop-icon {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.module-heading {
+  margin: 0 0 18px;
+  font-size: clamp(28px, 6vw, 36px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.exercise-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.exercise-card {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 16px 18px;
+}
+
+.exercise-number {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.exercise-body {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  min-width: 0;
+}
+
+.exercise-title {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 650;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 6px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-pill svg {
+  width: 16px;
+  height: 16px;
+}
+
+.status-pill.is-done {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.status-pill.is-practice {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.exercise-start {
+  min-height: 48px;
+  padding: 0 18px;
+  font-size: 16px;
+}
+
+@media (max-width: 520px) {
+  .exercise-card {
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+  }
+  .exercise-number {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  .exercise-start {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+.module-disclaimer {
+  text-align: center;
+  margin: 22px auto 0;
+}
+
+.legend-pill b {
+  font-weight: 800;
+}
+
+/* ---------- Practice HUD & controls ---------- */
+
+.gear-chip .gear-letter {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: #1d1d1f;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.gear-chip.is-reverse {
+  background: rgba(255, 241, 219, 0.95);
+  color: #8a5000;
+}
+
+.gear-chip.is-reverse .gear-letter {
+  background: #b06a00;
+}
+
+.gear-chip.is-refused {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.pb-chip {
+  background: rgba(255, 228, 224, 0.96);
+  color: #b3261e;
+}
+
+.pb-chip svg {
+  width: 20px;
+  height: 20px;
+}
+
+.tc-gear {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: rgba(120, 120, 128, 0.18);
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.tc-toggle.is-on {
+  background: #b06a00;
+  color: #fff;
+}
+
+.tc-toggle.tc-look-right.is-on {
+  background: #b3261e;
+}
+
+.is-touch .tc-toggle.is-on {
+  background: #b06a00;
+  color: #fff;
+}
+
+.is-touch .tc-toggle.tc-look-right.is-on {
+  background: #b3261e;
+  color: #fff;
+}
+
+.tc-toggle.is-cue:not(.is-on),
+.key-hints .key-row.is-cue {
+  animation: cue 1.1s ease-in-out infinite;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.key-hints .key-row.is-cue {
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+@keyframes cue {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}

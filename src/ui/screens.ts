@@ -1,5 +1,6 @@
 import { t } from '../i18n';
 import type { LessonDefinition, LessonResult } from '../lessons/types';
+import { getProgress } from '../progress';
 import { h, icon, ICONS } from './dom';
 import { langSwitch } from './langSwitch';
 
@@ -7,22 +8,46 @@ function isTouchDevice(): boolean {
   return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 }
 
-function header(onHome?: () => void): HTMLElement {
+/** Where the screen's back action leads: home, or the module an exercise belongs to. */
+export interface Nav {
+  label: string;
+  onBack: () => void;
+  kind: 'home' | 'module';
+}
+
+function header(nav?: Nav): HTMLElement {
   return h(
     'header',
     { class: 'topbar' },
-    onHome
-      ? h('button', { type: 'button', class: 'btn-ghost', 'aria-label': t().common.home, onclick: onHome }, icon(ICONS.home), h('span', {}, t().common.home))
+    nav
+      ? h(
+          'button',
+          { type: 'button', class: 'btn-ghost', 'aria-label': nav.label, onclick: nav.onBack },
+          icon(nav.kind === 'home' ? ICONS.home : ICONS.back),
+          h('span', {}, nav.label),
+        )
       : h('div', { class: 'brand' }, icon(ICONS.road)),
     langSwitch(),
   );
 }
 
-function page(onHome: (() => void) | undefined, ...content: Node[]): HTMLElement {
-  return h('div', { class: 'page' }, header(onHome), h('main', { class: 'page-main' }, ...content));
+function page(nav: Nav | undefined, ...content: Node[]): HTMLElement {
+  return h('div', { class: 'page' }, header(nav), h('main', { class: 'page-main' }, ...content));
 }
 
-export function homeScreen(lessons: readonly LessonDefinition[], onStart: (lesson: LessonDefinition) => void): HTMLElement {
+const isPractice = (lesson: LessonDefinition): boolean => lesson.module !== undefined;
+
+export interface ModuleEntry {
+  title: string;
+  exercises: readonly LessonDefinition[];
+  onOpen: () => void;
+}
+
+export function homeScreen(
+  lessons: readonly LessonDefinition[],
+  onStart: (lesson: LessonDefinition) => void,
+  modules: readonly ModuleEntry[] = [],
+): HTMLElement {
   const d = t();
   const list = h('ul', { class: 'lesson-list' });
   for (const lesson of lessons) {
@@ -42,7 +67,88 @@ export function homeScreen(lessons: readonly LessonDefinition[], onStart: (lesso
       ),
     );
   }
+  for (const mod of modules) {
+    const done = mod.exercises.filter((e) => getProgress(e.id) === 'completed').length;
+    list.append(
+      h(
+        'li',
+        { class: 'card module-card' },
+        h(
+          'button',
+          { type: 'button', class: 'module-open', onclick: mod.onOpen },
+          h('span', { class: 'lesson-art module-art' }, icon(ICONS.cones)),
+          h('span', { class: 'module-body' }, h('span', { class: 'module-title' }, mod.title), h('span', { class: 'module-count', 'aria-hidden': 'true' }, icon(ICONS.check), `${done} / ${mod.exercises.length}`)),
+          h('span', { class: 'module-chevron' }, icon(ICONS.chevron)),
+        ),
+      ),
+    );
+  }
   return page(undefined, list);
+}
+
+/** Practice module: the list of exercises with locally saved status. */
+export function moduleScreen(
+  exercises: readonly LessonDefinition[],
+  onStart: (lesson: LessonDefinition) => void,
+  nav: Nav,
+): HTMLElement {
+  const d = t();
+  const m = d.modules.practice;
+  const list = h('ol', { class: 'exercise-list' });
+  exercises.forEach((lesson, i) => {
+    const copy = lesson.copy(d);
+    const status = getProgress(lesson.id);
+    list.append(
+      h(
+        'li',
+        { class: 'card exercise-card' },
+        h('span', { class: 'exercise-number', 'aria-hidden': 'true' }, String(i + 1)),
+        h(
+          'div',
+          { class: 'exercise-body' },
+          h('h2', { class: 'exercise-title' }, copy.title),
+          status
+            ? h(
+                'span',
+                { class: `status-pill ${status === 'completed' ? 'is-done' : 'is-practice'}` },
+                icon(status === 'completed' ? ICONS.check : ICONS.practice),
+                status === 'completed' ? m.completed : m.needsPractice,
+              )
+            : null,
+        ),
+        h('button', { type: 'button', class: 'btn btn-primary exercise-start', onclick: () => onStart(lesson) }, m.startExercise),
+      ),
+    );
+  });
+  return page(
+    nav,
+    h('h1', { class: 'module-heading' }, m.title),
+    list,
+    h('p', { class: 'disclaimer module-disclaimer' }, m.disclaimer),
+  );
+}
+
+function practiceLegend(): HTMLElement {
+  const c = t().common;
+  if (isTouchDevice()) {
+    return h(
+      'div',
+      { class: 'legend legend-touch', 'aria-hidden': 'true' },
+      h('span', { class: 'legend-pill' }, h('b', {}, 'R'), c.reverse),
+      h('span', { class: 'legend-pill' }, icon(ICONS.parkingBrake), c.parkingBrake),
+    );
+  }
+  const row = (keys: string[], label?: string): HTMLElement =>
+    h('div', { class: 'legend-row' }, h('span', { class: 'legend-keys' }, ...keys.map((k) => h('kbd', {}, k))), label ? h('span', {}, label) : null);
+  return h(
+    'div',
+    { class: 'legend', 'aria-hidden': 'true' },
+    row(['W', 'A', 'S', 'D']),
+    row(['↑', '←', '↓', '→']),
+    row(['R'], c.reverse),
+    row(['Space'], c.parkingBrake),
+    row(['Esc'], c.pause),
+  );
 }
 
 function controlsLegend(): HTMLElement {
@@ -68,21 +174,26 @@ function controlsLegend(): HTMLElement {
   );
 }
 
-export function briefingScreen(lesson: LessonDefinition, onContinue: () => void, onHome: () => void): HTMLElement {
+export function briefingScreen(lesson: LessonDefinition, onContinue: () => void, nav: Nav): HTMLElement {
   const d = t();
   const copy = lesson.copy(d);
+  const practice = isPractice(lesson);
   return page(
-    onHome,
+    nav,
     h(
       'section',
       { class: 'card briefing' },
-      h('div', { class: 'briefing-art' }, icon(ICONS.stop)),
+      h('div', { class: 'briefing-art' }, icon(practice ? ICONS.cones : ICONS.stop)),
       h('h1', { class: 'screen-title' }, copy.title),
-      h('p', { class: 'lead' }, copy.goal),
+      copy.goal ? h('p', { class: 'lead' }, copy.goal) : null,
       h('p', { class: 'briefing-text' }, copy.briefing),
-      controlsLegend(),
-      h('button', { type: 'button', class: 'btn btn-primary btn-large', onclick: onContinue }, d.common.continue),
-      h('p', { class: 'disclaimer' }, d.common.disclaimer),
+      practice ? practiceLegend() : controlsLegend(),
+      h(
+        'button',
+        { type: 'button', class: 'btn btn-primary btn-large', onclick: onContinue },
+        practice ? d.modules.practice.startExercise : d.common.continue,
+      ),
+      h('p', { class: 'disclaimer' }, practice ? d.modules.practice.disclaimer : d.common.disclaimer),
     ),
   );
 }
@@ -91,10 +202,13 @@ export function resultScreen(
   lesson: LessonDefinition,
   result: LessonResult,
   onRetry: () => void,
-  onHome: () => void,
+  nav: Nav,
 ): HTMLElement {
   const d = t();
   const copy = lesson.copy(d);
+  const practice = isPractice(lesson);
+  const done = practice ? d.modules.practice.completed : d.common.completed;
+  const needs = practice ? d.modules.practice.needsPractice : d.common.needsPractice;
   const allDone = result.items.every((item) => item.completed);
 
   const list = h('ul', { class: 'checklist' });
@@ -103,14 +217,14 @@ export function resultScreen(
       h(
         'li',
         { class: `check-item ${item.completed ? 'is-done' : 'is-practice'}` },
-        h('span', { class: 'check-mark', role: 'img', 'aria-label': item.completed ? d.common.completed : d.common.needsPractice }, icon(item.completed ? ICONS.check : ICONS.practice)),
+        h('span', { class: 'check-mark', role: 'img', 'aria-label': item.completed ? done : needs }, icon(item.completed ? ICONS.check : ICONS.practice)),
         h('span', { class: 'check-label' }, copy.checklist[item.key] ?? item.key),
       ),
     );
   }
 
   return page(
-    onHome,
+    nav,
     h(
       'section',
       { class: `card result ${allDone ? 'is-positive' : 'is-retry'}` },
@@ -118,35 +232,35 @@ export function resultScreen(
       h('h1', { class: 'screen-title' }, allDone ? d.common.positiveResult : d.common.retryResult),
       h('p', { class: 'result-lesson' }, copy.title),
       list,
-      allDone ? null : h('p', { class: 'guidance' }, copy.retryGuidance),
+      allDone || !copy.retryGuidance ? null : h('p', { class: 'guidance' }, copy.retryGuidance),
       h(
         'div',
         { class: 'actions' },
         h('button', { type: 'button', class: `btn ${allDone ? 'btn-secondary' : 'btn-primary'} btn-large`, onclick: onRetry }, d.common.retry),
-        h('button', { type: 'button', class: 'btn btn-plain btn-large', onclick: onHome }, d.common.home),
+        h('button', { type: 'button', class: 'btn btn-plain btn-large', onclick: nav.onBack }, nav.label),
       ),
-      h('p', { class: 'disclaimer' }, d.common.disclaimer),
+      h('p', { class: 'disclaimer' }, practice ? d.modules.practice.disclaimer : d.common.disclaimer),
     ),
   );
 }
 
 /** Shown when the device cannot render the 3D scene: the lesson content without the simulation. */
-export function fallbackScreen(lesson: LessonDefinition, onRetry: () => void, onHome: () => void): HTMLElement {
+export function fallbackScreen(lesson: LessonDefinition, onRetry: () => void, nav: Nav): HTMLElement {
   const d = t();
   const copy = lesson.copy(d);
   return page(
-    onHome,
+    nav,
     h(
       'section',
       { class: 'card briefing fallback' },
-      h('div', { class: 'fallback-art', 'aria-hidden': 'true' }, junctionDiagram()),
+      h('div', { class: 'fallback-art', 'aria-hidden': 'true' }, isPractice(lesson) ? icon(ICONS.cones) : junctionDiagram()),
       h('h1', { class: 'screen-title' }, copy.title),
-      h('p', { class: 'lead' }, copy.goal),
+      copy.goal ? h('p', { class: 'lead' }, copy.goal) : null,
       h('p', { class: 'briefing-text' }, copy.briefing),
       h(
         'div',
         { class: 'actions' },
-        h('button', { type: 'button', class: 'btn btn-primary btn-large', onclick: onHome }, d.common.home),
+        h('button', { type: 'button', class: 'btn btn-primary btn-large', onclick: nav.onBack }, nav.label),
         h('button', { type: 'button', class: 'btn btn-plain btn-large', onclick: onRetry }, d.common.retry),
       ),
     ),

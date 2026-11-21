@@ -17,7 +17,9 @@
     "steerRight": "Steer right",
     "completed": "Completed",
     "needsPractice": "Needs practice",
-    "disclaimer": "This is a learning exercise. It is not an official driving test and does not replace instruction with a driving instructor."
+    "disclaimer": "This is a learning exercise. It is not an official driving test and does not replace instruction with a driving instructor.",
+    "reverse": "Reverse",
+    "parkingBrake": "Parking brake"
   },
   "lessons": {
     "stop-and-check": {
@@ -31,6 +33,63 @@
         "proceededWhenClear": "Proceeded when the way was clear"
       },
       "retryGuidance": "Try again. Stop, check, and proceed only when it is safe."
+    }
+  },
+  "modules": {
+    "practice": {
+      "title": "Practice-area exercises",
+      "startExercise": "Start exercise",
+      "completed": "Completed",
+      "needsPractice": "Needs practice",
+      "backToModule": "Back to exercises",
+      "disclaimer": "This is a learning exercise. It is not an official driving test and does not replace instruction with a driving instructor."
+    }
+  },
+  "exercises": {
+    "moving-off": {
+      "title": "Moving off and stopping",
+      "briefing": "Move off. Stay in the middle of the lane and stop before the line.",
+      "checklist": {
+        "movedOff": "Moved off",
+        "stayedInLane": "Stayed in the lane",
+        "stoppedBeforeLine": "Stopped before the line"
+      }
+    },
+    "reversing": {
+      "title": "Reversing",
+      "briefing": "Select reverse while stopped. Reverse along the middle of the lane and stop before the line.",
+      "checklist": {
+        "selectedReverseWhileStopped": "Selected reverse while stopped",
+        "stayedInLane": "Stayed in the lane",
+        "stoppedBeforeLine": "Stopped before the line"
+      }
+    },
+    "u-turn": {
+      "title": "U-turn",
+      "briefing": "Turn the car around inside the marked area. Use no more than three maneuvers and stay within the boundaries.",
+      "checklist": {
+        "stayedInArea": "Stayed within the marked area",
+        "finishedOpposite": "Finished facing the opposite direction",
+        "maxThreeManeuvers": "Used no more than three maneuvers"
+      }
+    },
+    "parallel-parking": {
+      "title": "Reverse parallel parking",
+      "briefing": "Reverse park beside the edge of the road. Enter the marked space without touching its boundaries.",
+      "checklist": {
+        "reversedIntoSpace": "Reversed into the space",
+        "didNotTouchBoundaries": "Did not touch the boundaries",
+        "stoppedInsideSpace": "Stopped inside the marked space"
+      }
+    },
+    "hill-start": {
+      "title": "Hill start",
+      "briefing": "Stop on the incline and apply the parking brake. Then move off without rolling backward.",
+      "checklist": {
+        "stoppedOnIncline": "Stopped on the incline",
+        "appliedParkingBrake": "Applied the parking brake",
+        "movedOffWithoutRollback": "Moved off without rolling backward"
+      }
     }
   }
 }

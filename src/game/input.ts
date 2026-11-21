@@ -14,14 +14,22 @@ const KEY_MAP: Record<string, DriveAction> = {
   KeyE: 'lookRight',
 };
 
+export interface InputToggles {
+  onReverse?: () => void;
+  onParkingBrake?: () => void;
+}
+
 /** Merges keyboard and on-screen touch input into one pressed-state snapshot. */
 export class DriveInput {
   private keys = new Set<DriveAction>();
   private touch = new Map<DriveAction, number>();
   private onPauseToggle: () => void;
+  private toggles: InputToggles;
 
-  constructor(onPauseToggle: () => void) {
+  /** Toggle keys (R, Space) are only captured when a handler is supplied. */
+  constructor(onPauseToggle: () => void, toggles: InputToggles = {}) {
     this.onPauseToggle = onPauseToggle;
+    this.toggles = toggles;
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
     window.addEventListener('blur', this.clear);
@@ -66,6 +74,15 @@ export class DriveInput {
       return;
     }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const toggle = e.code === 'KeyR' ? this.toggles.onReverse : e.code === 'Space' ? this.toggles.onParkingBrake : undefined;
+    // Let Space/R reach focused buttons and fields (keyboard activation, typing).
+    const target = e.target as HTMLElement | null;
+    const interactive = target?.closest?.('button, input, select, textarea, a[href]');
+    if (toggle && !interactive) {
+      e.preventDefault();
+      if (!e.repeat) toggle();
+      return;
+    }
     const action = KEY_MAP[e.code];
     if (!action) return;
     e.preventDefault();

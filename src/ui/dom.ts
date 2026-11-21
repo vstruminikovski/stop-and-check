@@ -55,4 +55,8 @@ export const ICONS = {
   down: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20l7-9h-4.5V4h-5v7H5z" fill="currentColor"/></svg>`,
   left: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-8 7 8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   right: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  parkingBrake: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 16.5v-9h3a2.6 2.6 0 0 1 0 5.2h-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 6.5a10 10 0 0 0 0 11M20 6.5a10 10 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>`,
+  cones: `<svg viewBox="0 0 100 100" class="stop-icon" aria-hidden="true"><rect x="4" y="4" width="92" height="92" rx="24" fill="#8d929a"/><path d="M20 30h60M20 70h60" stroke="#fff" stroke-width="4" stroke-dasharray="8 6"/><path d="M38 78l8-34h8l8 34z" fill="#f07a2a"/><path d="M42 62h16" stroke="#fff" stroke-width="5"/><rect x="32" y="77" width="36" height="5" rx="2" fill="#f07a2a"/></svg>`,
+  chevron: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  back: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 } as const;
